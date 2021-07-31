@@ -6,6 +6,7 @@ code {
     color: rgb(255, 60, 0);
     font-size: 1rem;
     font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
 }
 body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
