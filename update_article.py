@@ -12,7 +12,7 @@ for f in reversed(sorted(filter(lambda x: os.path.isfile(os.path.join(path1, x))
             title = re.sub("TITLE: ", "", re.search(pattern=r"TITLE:.+", string=content).group(0))
             preview = re.sub("PREVIEW: ", "", re.search(pattern=r"PREVIEW:.+", string=content).group(0))[:100]
             createdon = re.sub("CREATED_ON: ", "", re.search(pattern=r"CREATED_ON:.+", string=content).group(0))
-            connect_link = re.sub(r"\s", "-", title.lower())
+            connect_link = re.sub(r"[!@#\$%\^&\*\(\)_\+={}\[\];:'\"<,>\.\?/\\]", "", re.sub(r"\s", "-", title.lower()))
             json1.update(
                 {
                     connect_link: {
