@@ -73,12 +73,14 @@
         </div>
     </body>
     <script>
-            console.log("fdasfdsafdsa")
             fetch("/article.json")
                 .then(e => e.json())
                 .then(e => {
+                    console.log(`Article metadata loaded`)
+                    console.table(e)
                     Object.keys(e).forEach(idname => {
                         /** @type {{ title: string; preview_text: string; created_on: string; link: string; }} */
+                        console.log(`Adding data with id: ${idname}`)
                         var element = e[idname]
                         var section = document.createElement("div");
                         section.classList.add("blogitem")
@@ -117,6 +119,7 @@
             }
             document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
             document.getElementById("theme").onchange = (e) => {
+                console.log("Changed theme")
                 localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
                 func1()
             }
