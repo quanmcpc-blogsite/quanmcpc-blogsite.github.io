@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/style.css">
+        <!-- <script src="/article-js.js" defer></script> -->
+        <link rel="shortcut icon" href="/favicon.ico">
+        <title>QuanMCPC's BlogSite | Hm?</title>
+        <style>
+            div#blogcontent {
+                height: auto;
+                margin: 5px auto 5px auto;
+            }
+            div#blogcontent img {
+                width: 100%;
+                height: auto;
+            }
+            div#loadArticle img {
+                width: 200px;
+                height: 200px;
+            }
+            @media (min-width: 600px) { div#blogcontent { width: 100%; } }
+            @media (min-width: 680px) { div#blogcontent { width: 65%; } }
+            @media (min-width: 960px) { div#blogcontent { width: 55%; } }
+            a {
+                margin: 5px;
+                color: red;
+            }
+            div#loadArticle h2, div#loadArticle img, div#error h2, div#error svg {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+            div#error { display: none; }
+        </style>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"
+            integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    </head>
+    <body>
+        <h1>QuanMCPC's Blog-Site?</h1>
+        <div id="blogcontent">
+            <a href="/" id="return">&lt; Return to main page</a>
+            <div id="theActualContent">
+                <div id="loadArticle" class="blogitem">
+                    <img src="/loading.svg" alt="Loading...">
+                    <h2>Loading the article...</h2>
+                </div>
+                <div id="error">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="200px" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <h2>Oops, it seem like there's no blog named <span id="blogName"></span>, sorry</h2>
+                </div>
+            </div>
+        </div>
+        <div id="themeChange">
+            <label for="theme">Select your Theme: </label>
+            <select name="theme" id="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>    
+    </body>
+    <script>
+            console.log("fad")
+            if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
+            /**
+             * 
+             * @param {string} name The name of the value
+             * @param {string} value The value
+             */
+            function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
+            function func1() {
+                if (document.getElementById("theme").selectedIndex == 0) {
+                    setProp("--bg", "#fff")
+                    setProp("--fg", "#000")
+                } else {
+                    setProp("--bg", "#000")
+                    setProp("--fg", "#fff")
+                }
+            }
+            document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
+            document.getElementById("theme").onchange = (e) => {
+                localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
+                func1()
+            }
+            func1()
+            function getParameterByName(name, url = window.location.href) {
+                name = name.replace(/[\[\]]/g, '\\$&');
+                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                    results = regex.exec(url);
+                    if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, ' '));
+            }
+            var blogId = getParameterByName("id");
+            fetch(`/article.json`)
+                .then(res => res.json())
+                .then(res_json => {
+                    fetch(res_json[blogId]?.link)
+                    .then(res => {
+                            console.log("abdf")
+                            if (res.status == 200) {
+                                res.text().then(res_text => {
+                                    var converter = new showdown.Converter();
+                                    var html = converter.makeHtml(res_text);
+                                    console.log(html)
+                                    document.getElementById("theActualContent").insertAdjacentHTML("beforeend", html)
+                                })
+                            } else {
+                                document.getElementById("error").style.display = "block";
+                                document.getElementById("blogName").innerHTML = blogId;
+                            }
+                            document.getElementById("loadArticle").remove()
+                        })
+                        document.title = `QuanMCPC's BlogSite | ${!!res_json[blogId]?.title ? res_json[blogId]?.title : "Invalid blog ID"}`
+                    })
+        </script>
+</html>

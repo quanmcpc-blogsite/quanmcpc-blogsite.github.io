@@ -1,0 +1,23 @@
+:root {
+    --bg: #fff;
+    --fg: #000;
+}
+body {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: var(--bg);
+    color: var(--fg);
+    overflow-y: scroll;
+}
+h1, h2, h3, h4, h5, h6, p { margin: 12px 5px 12px 5px; font-weight: normal; }
+div#themeChange {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+div#themeChange select {
+    background: var(--bg);
+    color: var(--fg);
+    border: 2px solid var(--fg);
+}

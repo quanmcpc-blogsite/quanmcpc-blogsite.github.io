@@ -1,0 +1,14 @@
+{
+    "is-it-hard-to-make-a-website?": {
+        "title": "Is it hard to make a website?",
+        "preview_text": "If you're reading this, then once in your life, you might think that \"Oh I want to also create a web",
+        "created_on": "2021-07-29",
+        "link": "./article/blog-1.md"
+    },
+    "template-blog": {
+        "title": "Template Blog",
+        "preview_text": "This is a template blog, and since I don't have anything to talk, I just gonna type the whole \"Lopem",
+        "created_on": "2021-07-27",
+        "link": "./article/blog-0.md"
+    }
+}

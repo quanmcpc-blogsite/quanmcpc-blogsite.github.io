@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style.css">
+        <!-- Open Sans -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        <meta property="og:title" content="QuanMCPC's BlogSite">
+        <meta property="og:site_name" content="QuanMCPC's BlogSite">
+        <meta property="og:url" content="https://quanmcpc-blog.github.io/">
+        <meta property="og:description" content="Hello! This is my personal blog, where I wrote blog about me, about my website, or maybe just random stuff.">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://quanmcpc-blog.github.io/logo.png">
+        <link rel="shortcut icon" href="/favicon.ico">
+        <style>
+            div.blogitem {
+                border: 2px solid var(--fg);
+                height: auto;
+                margin: 5px auto 5px auto;
+            }
+            @media (min-width: 600px) { div.blogitem { width: 100%; } }
+            @media (min-width: 680px) { div.blogitem { width: 65%; } }
+            @media (min-width: 960px) { div.blogitem { width: 55%; } }
+            div.blogitem h2 {
+                margin: 8px;
+            }
+            div.blogitem p {
+                overflow-wrap: break-word;
+            }
+            div.blogitem a {
+                margin: 0 5px 0 5px;
+            }
+            a { color: red; }
+            div#loadArticle h2, div#loadArticle img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+            /* div#loadingOverlay {
+                width: 100%;
+                height: 100%;
+                background-color: rgb(128, 128, 128);
+                position: fixed;
+                top: 0; left: 0;
+            } */
+        </style>
+        <title>QuanMCPC's BlogSite</title>
+    </head>
+    <body>
+        <h1>QuanMCPC's Blog-Site?</h1>
+        <p>Hello there! This is where I will (or I might) post blog about me, about my website, or maybe just random stuff. Since this is not my main website, I might not update this very often so I'll try to make the website as beautiful and stable as possible.</p>
+        <p>This blogsite used only vanilla HTML, CSS and JS, with the addition of Open Sans font (Not Comic Sans) with <a href="https://github.com/showdownjs/showdown">Showdown</a> (A JS script to parse Markdown to HTML).</p>
+        <p>If there's any problem with the image/video/content that I've used, contact me at: <code>quanmcpc-blog@outlook.com</code></p>
+        <div id="bloghere">
+            <div id="loadArticle" class="blogitem">
+                <img src="/loading.svg" alt="Loading...">
+                <h2>Loading some article...</h2>
+            </div>
+        </div>
+        <div id="themeChange">
+            <label for="theme">Select your Theme: </label>
+            <select name="theme" id="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>
+    </body>
+    <script>
+            console.log("fdasfdsafdsa")
+            fetch("/article.json")
+                .then(e => e.json())
+                .then(e => {
+                    Object.keys(e).forEach(idname => {
+                        /** @type {{ title: string; preview_text: string; created_on: string; link: string; }} */
+                        var element = e[idname]
+                        var section = document.createElement("div");
+                        section.classList.add("blogitem")
+                        var title = document.createElement("h2");
+                        title.innerHTML = element.title;
+                        var preview = document.createElement("p");
+                        preview.innerHTML = `${element.preview_text}...`;
+                        var createdon = document.createElement("p");
+                        createdon.innerHTML = `Created on: ${element.created_on}`;
+                        var clickhere = document.createElement("a");
+                        clickhere.href = `/article.html?id=${idname}`;
+                        clickhere.innerHTML = "Click here to read";
+                        section.appendChild(title);
+                        section.appendChild(preview);
+                        section.appendChild(clickhere);
+                        section.appendChild(createdon);
+                        document.getElementById("bloghere").appendChild(section);
+                        document.getElementById("loadArticle").style.display = "none";
+                    })
+                })
+            if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
+            /**
+             * 
+             * @param {string} name The name of the value
+             * @param {string} value The value
+             */
+            function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
+            function func1() {
+                if (document.getElementById("theme").selectedIndex == 0) {
+                    setProp("--bg", "#fff")
+                    setProp("--fg", "#000")
+                } else {
+                    setProp("--bg", "#000")
+                    setProp("--fg", "#fff")
+                }
+            }
+            document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
+            document.getElementById("theme").onchange = (e) => {
+                localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
+                func1()
+            }
+            func1()
+    </script>
+</html>
