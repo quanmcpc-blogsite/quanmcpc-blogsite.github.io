@@ -2,6 +2,11 @@
     --bg: #fff;
     --fg: #000;
 }
+code {
+    color: rgb(255, 60, 0);
+    font-size: 1rem;
+    font-weight: bold;
+}
 body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
     padding-left: 20px;
