@@ -102,11 +102,6 @@
                     })
                 })
             if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
-            /**
-             * 
-             * @param {string} name The name of the value
-             * @param {string} value The value
-             */
             function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
             function func1() {
                 if (document.getElementById("theme").selectedIndex == 0) {
