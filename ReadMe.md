@@ -7,7 +7,7 @@
     </a>
 </p>
 
-> **NOTE**: I have forgot the password to my GitHub and Outlook account (username: quanmcpc-blog), so this is my backup site.
+> **NOTE**: I have forgot the password to my GitHub and Outlook account (username: quanmcpc-blog), so I've created this account to write blog.
 
 Hello there! This is where I will (or I might) post blog about me, about my website, or maybe just random stuff. Since this is not my main website, I might not update this very often so I'll try to make the website as beautiful and stable as possible.
 
