@@ -16,8 +16,11 @@
         <meta property="og:description" content="Hello! This is my personal blog, where I wrote blog about me, about my website, or maybe just random stuff.">
         <meta property="og:type" content="website">
         <meta property="og:image" content="https://quanmcpc-blogsite.github.io/logo.png">
-        <meta proerty="twitter:card" content="summary_large_image">
+        <meta name="twitter:card" content="summary_large_image">
         <link rel="shortcut icon" href="/favicon.ico">
+        <meta name="theme-color" content="#a00000" />
+        <link rel="manifest" href="/manifest.webmanifest">
+        <script src="/index.js"></script>
         <style>
             div.blogitem {
                 border: 2px solid var(--fg);
@@ -72,53 +75,56 @@
                 <option value="dark">Dark</option>
             </select>
         </div>
+        <div id="offlineIndi">
+            <p>You are currently in Offline Mode</p>
+        </div>
     </body>
     <script>
-            fetch("/article.json")
-                .then(e => e.json())
-                .then(e => {
-                    console.log(`Article metadata loaded`)
-                    console.table(e)
-                    Object.keys(e).forEach(idname => {
-                        /** @type {{ title: string; preview_text: string; created_on: string; link: string; }} */
-                        console.log(`Adding data with id: ${idname}`)
-                        var element = e[idname]
-                        var section = document.createElement("div");
-                        section.classList.add("blogitem")
-                        var title = document.createElement("h2");
-                        title.innerHTML = element.title;
-                        var preview = document.createElement("p");
-                        preview.innerHTML = `${element.preview_text}...`;
-                        var createdon = document.createElement("p");
-                        createdon.innerHTML = `Created on: ${element.created_on}`;
-                        var clickhere = document.createElement("a");
-                        clickhere.href = `/article.html?id=${idname}`;
-                        clickhere.innerHTML = "Click here to read";
-                        section.appendChild(title);
-                        section.appendChild(preview);
-                        section.appendChild(clickhere);
-                        section.appendChild(createdon);
-                        document.getElementById("bloghere").appendChild(section);
-                        document.getElementById("loadArticle").style.display = "none";
-                    })
+        fetch("/article.json")
+            .then(e => e.json())
+            .then(e => {
+                console.log(`Article metadata loaded`)
+                console.table(e)
+                Object.keys(e).forEach(idname => {
+                    /** @type {{ title: string; preview_text: string; created_on: string; link: string; }} */
+                    console.log(`Adding data with id: ${idname}`)
+                    var element = e[idname]
+                    var section = document.createElement("div");
+                    section.classList.add("blogitem")
+                    var title = document.createElement("h2");
+                    title.innerHTML = element.title;
+                    var preview = document.createElement("p");
+                    preview.innerHTML = `${element.preview_text}...`;
+                    var createdon = document.createElement("p");
+                    createdon.innerHTML = `Created on: ${element.created_on}`;
+                    var clickhere = document.createElement("a");
+                    clickhere.href = `/article.html?id=${idname}`;
+                    clickhere.innerHTML = "Click here to read";
+                    section.appendChild(title);
+                    section.appendChild(preview);
+                    section.appendChild(clickhere);
+                    section.appendChild(createdon);
+                    document.getElementById("bloghere").appendChild(section);
+                    document.getElementById("loadArticle").style.display = "none";
                 })
-            if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
-            function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
-            function func1() {
-                if (document.getElementById("theme").selectedIndex == 0) {
-                    setProp("--bg", "#fff")
-                    setProp("--fg", "#000")
-                } else {
-                    setProp("--bg", "#000")
-                    setProp("--fg", "#fff")
-                }
+            })
+        if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
+        function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
+        function func1() {
+            if (document.getElementById("theme").selectedIndex == 0) {
+                setProp("--bg", "#fff")
+                setProp("--fg", "#000")
+            } else {
+                setProp("--bg", "#000")
+                setProp("--fg", "#fff")
             }
-            document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
-            document.getElementById("theme").onchange = (e) => {
-                console.log("Changed theme")
-                localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
-                func1()
-            }
+        }
+        document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
+        document.getElementById("theme").onchange = (e) => {
+            console.log("Changed theme")
+            localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
             func1()
+        }
+        func1()
     </script>
 </html>

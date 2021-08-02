@@ -1,0 +1,30 @@
+{
+    "author": "QuanMCPC",
+    "short_name": "QuanMCPC's Blogsite",
+    "name": "QuanMCPC's Blogsite",
+    "developer": {
+        "name": "QuanMCPC-BlogSite",
+        "url": "https://github.com/QuanMCPC-BlogSite"
+    },
+    "icons": [
+        {
+            "src": "/manifest_logo.svg",
+            "type": "image/svg+xml",
+            "sizes": "1024x1024",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/manifest_logo.png",
+            "type": "image/png",
+            "sizes": "1024x1024",
+            "purpose": "maskable any"
+        }
+    ],
+    "start_url": "/index.html",
+    "background_color": "#a00000",
+    "scope": "/",
+    "theme_color": "#a00000",
+    "description": "My Blogsite as an installable web app",
+    "display": "standalone",
+    "orientation": "any"
+}

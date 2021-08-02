@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/style.css">
         <!-- <script src="/article-js.js" defer></script> -->
         <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="manifest" href="/manifest.webmanifest">
         <title>QuanMCPC's BlogSite | Hm?</title>
         <style>
             div#blogcontent {
@@ -39,12 +40,8 @@
             }
             div#error { display: none; }
         </style>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"
-            integrity="sha512-L03kznCrNOfVxOUovR6ESfCz9Gfny7gihUX/huVbQB9zjODtYpxaVtIaAkpetoiyV2eqWbvxMH9fiSv5enX7bw=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        ></script>
+        <script src="/showdown.min.js"></script>
+        <script src="/index.js"></script>
     </head>
     <body>
         <h1>QuanMCPC's Blog-Site?</h1>
@@ -69,8 +66,15 @@
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
             </select>
+            <hr>
+            <label for="saveArticle">Save this Article for offline read?</label>
+            <input type="checkbox" name="saveArticle" id="saveArticle" disabled>
+        </div>
+        <div id="offlineIndi">
+            <p>You are currently in Offline Mode</p>
         </div>
         <script>
+            var json_listing = {}
             if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
             function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
             function func1() {
@@ -101,6 +105,7 @@
             fetch("/article.json")
                 .then(res => res.json())
                 .then(res_json => {
+                    json_listing = res_json
                     console.log(`Article metadata loaded`)
                     if (res_json[blogId] == undefined) {
                         console.log(`Article with Id: ${blogId} not found`)
@@ -108,6 +113,22 @@
                         document.getElementById("blogName").innerHTML = blogId;
                         document.title = `QuanMCPC's BlogSite | Invalid Blog Id`
                     } else {
+                        caches.open("version-1")
+                            .then(cache => cache.keys())
+                            .then(keys => {
+                                for (var value of keys) {
+                                    if (new URL(res_json[blogId].link, document.baseURI).href == value.url) {
+                                        document.getElementById("saveArticle").checked = true
+                                        break
+                                    } else {
+                                        document.getElementById("saveArticle").checked = false
+                                    }
+                                }
+                                checkOnlineStatus().then(v => { if (v) { document.getElementById("saveArticle").removeAttribute("disabled") } })
+                            })
+                            .catch((error) => {
+                                alert(`Something has gone wrong\n${error}\n${blogId}`)
+                            })
                         fetch(res_json[blogId].link).then(res => {
                             console.log(`Article with Id: ${blogId} loaded`)
                             res.text().then(res_text => {
@@ -121,6 +142,33 @@
                     }
                     document.getElementById("loadArticle").remove()
                 })
+            document.getElementById("saveArticle").onchange = (ev) => {
+                if (json_listing == {}) {
+                    ev.preventDefault()
+                } else {
+                    if (document.getElementById("saveArticle").checked) {
+                        caches.open("version-1")
+                            .then((cache) => {
+                                cache.add(json_listing[blogId].link)
+                                cache.add(window.location.href)
+                                alert("Article has been saved successfully")
+                            })
+                            .catch((error) => {
+                                alert(`Something has gone wrong\n${error}`)
+                            })
+                    } else {
+                        caches.open("version-1")
+                            .then((cache) => {
+                                cache.delete(json_listing[blogId].link)
+                                cache.delete(window.location.href)
+                                alert("Article has been removed successfully")
+                            })
+                            .catch((error) => {
+                                alert(`Something has gone wrong\n${error}`)
+                            })
+                    }
+                }
+            }
         </script>
     </body>
 </html>
