@@ -38,6 +38,7 @@ div#offlineIndi {
 div#offlineIndi p {
     text-align: center;
     margin: 10px;
+    color: white;
 }
 div.disabled {
     pointer-events: none;

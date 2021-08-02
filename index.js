@@ -7,7 +7,7 @@ if ('serviceWorker' in navigator) {
 }
 const checkOnlineStatus = async () => {
     try {
-        const online = await fetch("/google0d0804a11aec577f.html");
+        const online = await fetch(`/google0d0804a11aec577f.html?random=${Math.round(Math.random() * 100000)}`);
         return online.status >= 200 && online.status < 300; // either true or false
     } catch (err) {
         return false; // definitely offline
