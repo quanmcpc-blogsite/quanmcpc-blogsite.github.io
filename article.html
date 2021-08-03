@@ -41,7 +41,7 @@
             div#error { display: none; }
         </style>
         <script src="/assets/js/showdown.min.js"></script>
-        <script src="/index.js"></script>
+        <script src="/index.js" defer></script>
     </head>
     <body>
         <h1>QuanMCPC's Blog-Site?</h1>
@@ -102,7 +102,7 @@
                 return decodeURIComponent(results[2].replace(/\+/g, ' '));
             }
             var blogId = getParameterByName("id");
-            fetch(`/article.json?version=1`)
+            fetch("/article.json?version=1")
                 .then(res => res.json())
                 .then(res_json => {
                     json_listing = res_json
@@ -113,24 +113,29 @@
                         document.getElementById("blogName").innerHTML = blogId;
                         document.title = `QuanMCPC's BlogSite | Invalid Blog Id`
                     } else {
-                        caches.open("version-2")
-                            .then(cache => cache.keys())
-                            .then(keys => {
-                                for (var value of keys) {
-                                    console.log(new URL(res_json[blogId].link, document.baseURI).href, value.url)
-                                    if (new URL(res_json[blogId].link, document.baseURI).href == value.url) {
-                                        document.getElementById("saveArticle").checked = true
-                                        break
-                                    } else {
-                                        document.getElementById("saveArticle").checked = false
-                                    }
-                                }
-                                checkOnlineStatus().then(v => { if (v) { document.getElementById("saveArticle").removeAttribute("disabled") } })
-                            })
-                            .catch((error) => {
-                                alert(`Something has gone wrong\n${error}\n${blogId}`)
-                            })
                         fetch(res_json[blogId].link).then(res => {
+                            try {
+                                caches.open("version-2")
+                                    .then(cache => cache.keys())
+                                    .then(keys => {
+                                        for (var value of keys) {
+                                            console.log(new URL(res_json[blogId].link, document.baseURI).href, value.url)
+                                            if (new URL(res_json[blogId].link, document.baseURI).href == value.url) {
+                                                document.getElementById("saveArticle").checked = true
+                                                break
+                                            } else {
+                                                document.getElementById("saveArticle").checked = false
+                                            }
+                                        }
+                                        checkOnlineStatus().then(v => { if (v && typeof CacheStorage != "undefined") { document.getElementById("saveArticle").removeAttribute("disabled") } })
+                                    })
+                                    .catch((error) => {
+                                        alert(`Something has gone wrong\n${error}\n${blogId}`)
+                                    })
+                            }
+                            catch (err) {
+                                console.error(err)
+                            }
                             console.log(`Article with Id: ${blogId} loaded`)
                             res.text().then(res_text => {
                                 var converter = new showdown.Converter();

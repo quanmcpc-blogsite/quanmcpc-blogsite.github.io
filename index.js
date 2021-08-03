@@ -18,17 +18,22 @@ checkOnlineStatus().then(v => {
         document.getElementById("offlineIndi").style.display = "none"
     } else {
         document.getElementById("offlineIndi").style.display = "block"
-        caches.open("version-2")
-            .then(cache => cache.keys())
-            .then(keys => {
-                var data = keys.map(req => { return req.url })
-                console.log(data)
-                document.querySelectorAll("div.blogitem a").forEach((elm) => {
-                    if (data.includes(new URL(elm.getAttribute("href"), document.baseURI).href)) {} else {
-                        elm.parentElement.classList.add("disabled")
-                    }
-                    
+        try {
+            caches.open("version-2")
+                .then(cache => cache.keys())
+                .then(keys => {
+                    var data = keys.map(req => { return req.url })
+                    console.log(data)
+                    document.querySelectorAll("div.blogitem a").forEach((elm) => {
+                        if (data.includes(new URL(elm.getAttribute("href"), document.baseURI).href)) {} else {
+                            elm.parentElement.classList.add("disabled")
+                        }
+                        
+                    })
                 })
-            })
+        }
+        catch (err) {
+            console.error(err)
+        }
     }
 })

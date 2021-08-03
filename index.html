@@ -106,23 +106,28 @@
                         document.getElementById("bloghere").appendChild(section);
                         document.getElementById("loadArticle").style.display = "none";
                     })
-                    caches.open("version-2")
-                        .then(cache => cache.keys())
-                        .then(keys => {
-                            var urls = keys.map((req) => { return req.url })
-                            document.querySelectorAll("div.blogitem:not(#loadArticle) a").forEach((blogItem) => {
-                                if (urls.indexOf(new URL(blogItem.getAttribute("href"),document.baseURI).href) > -1) {
-                                    var saved = document.createElement("p")
-                                    saved.style.position = "absolute"
-                                    saved.style.right = "0"
-                                    saved.style.bottom = "0"
-                                    saved.style.color = "green"
-                                    saved.innerHTML = "Saved Blog"
-                                    blogItem.parentElement.append(saved)
-                                    console.log(blogItem.getAttribute("href"))
-                                }
+                    try {
+                        caches.open("version-2")
+                            .then(cache => cache.keys())
+                            .then(keys => {
+                                var urls = keys.map((req) => { return req.url })
+                                document.querySelectorAll("div.blogitem:not(#loadArticle) a").forEach((blogItem) => {
+                                    if (urls.indexOf(new URL(blogItem.getAttribute("href"), document.baseURI).href) > -1) {
+                                        var saved = document.createElement("p")
+                                        saved.style.position = "absolute"
+                                        saved.style.right = "0"
+                                        saved.style.bottom = "0"
+                                        saved.style.color = "green"
+                                        saved.innerHTML = "Saved Blog"
+                                        blogItem.parentElement.append(saved)
+                                        console.log(blogItem.getAttribute("href"))
+                                    }
+                                })
                             })
-                        })
+                    }
+                    catch (err) {
+                        console.error(err)
+                    }
                 })
             if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
             function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
