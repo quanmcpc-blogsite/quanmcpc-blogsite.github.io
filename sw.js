@@ -9,7 +9,7 @@ var urlsToCache = [
     "/assets/logo/manifest_logo.png",
     "/assets/logo/manifest_logo.svg",
     "/article.html",
-    "/article.json",
+    "/article.json?version=1",
     "/favicon.ico",
     "/index.html",
     "/index.js",

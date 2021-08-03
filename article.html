@@ -102,7 +102,7 @@
                 return decodeURIComponent(results[2].replace(/\+/g, ' '));
             }
             var blogId = getParameterByName("id");
-            fetch(`/article.json?random=${Math.round(Math.random() * 100000)}`)
+            fetch(`/article.json?version=1`)
                 .then(res => res.json())
                 .then(res_json => {
                     json_listing = res_json

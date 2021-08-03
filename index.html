@@ -80,7 +80,7 @@
             <p>You are currently in Offline Mode</p>
         </div>
         <script>
-            fetch(`/article.json?random=${Math.round(Math.random() * 100000)}`)
+            fetch(`/article.json?version=1`)
                 .then(e => e.json())
                 .then(e => {
                     console.log(`Article metadata loaded`)
