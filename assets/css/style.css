@@ -2,6 +2,13 @@
     --bg: #fff;
     --fg: #000;
 }
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url(/assets/font/OpenSans-Regular.ttf);
+}
 code {
     color: rgb(255, 60, 0);
     font-size: 1rem;

@@ -1,16 +1,24 @@
 var urlsToCache = [
     "/",
+    "/assets/css/style.css",
+    "/assets/font/OpenSans-Regular.ttf",
+    "/assets/js/showdown.min.js",
+    "/assets/logo/loading.svg",
+    "/assets/logo/logo.png",
+    "/assets/logo/logo.svg",
+    "/assets/logo/manifest_logo.png",
+    "/assets/logo/manifest_logo.svg",
+    "/article.html",
+    "/article.json",
+    "/favicon.ico",
     "/index.html",
     "/index.js",
-    "/article.json",
-    "/style.css",
-    "/logo.png",
-    "/article.html",
-    "/showdown.min.js"
+    "/manifest.webmanifest",
 ];
+caches.delete("version-1")
 self.addEventListener("install", e => {
     e.waitUntil(
-        caches.open("version-1")
+        caches.open("version-2")
             .then(c => {
                 console.log("Cache opened");
                 return c.addAll(urlsToCache);
@@ -36,7 +44,7 @@ self.addEventListener("fetch", e => {
 })
 self.addEventListener('activate', e => {
     var cWl = [];
-    cWl.push("version-1");
+    cWl.push("version-2");
     e.waitUntil(
         caches.keys().then(c => {
             return Promise.all(

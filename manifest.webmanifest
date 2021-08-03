@@ -8,13 +8,13 @@
     },
     "icons": [
         {
-            "src": "/manifest_logo.svg",
+            "src": "/assets/logo/manifest_logo.svg",
             "type": "image/svg+xml",
             "sizes": "1024x1024",
             "purpose": "maskable any"
         },
         {
-            "src": "/manifest_logo.png",
+            "src": "/assets/logo/manifest_logo.png",
             "type": "image/png",
             "sizes": "1024x1024",
             "purpose": "maskable any"

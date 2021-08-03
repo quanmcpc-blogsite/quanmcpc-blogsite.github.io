@@ -5,6 +5,16 @@ path1 = "./article/"
 json1 = {}
 # for path, _, files in os.walk(path1):
     # for f in files:
+def sizeOfFolder(path = "."):
+    print(f"Calculating the total size of folder: {os.path.abspath(path)}")
+    fp = ""; lite_size = 0
+    for path, _, files in os.walk(path):
+        for f in files:
+            fp = os.path.join(path, f)
+            lite_size += os.path.getsize(fp)
+    print(f"Total size: {str(lite_size)}")
+    return lite_size
+
 for f in reversed(sorted(filter(lambda x: os.path.isfile(os.path.join(path1, x)), os.listdir(path1)))):
     with open(os.path.join(path1, f), "r", encoding="UTF-8") as file:
         content = file.read()

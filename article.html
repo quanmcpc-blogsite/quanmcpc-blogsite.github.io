@@ -4,10 +4,10 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> -->
+        <link rel="stylesheet" href="/assets/css/style.css">
         <!-- <script src="/article-js.js" defer></script> -->
         <link rel="shortcut icon" href="/favicon.ico">
         <link rel="manifest" href="/manifest.webmanifest">
@@ -40,7 +40,7 @@
             }
             div#error { display: none; }
         </style>
-        <script src="/showdown.min.js"></script>
+        <script src="/assets/js/showdown.min.js"></script>
         <script src="/index.js"></script>
     </head>
     <body>
@@ -49,7 +49,7 @@
             <a href="/" id="return">&lt; Return to main page</a>
             <div id="theActualContent">
                 <div id="loadArticle" class="blogitem">
-                    <img src="/loading.svg" alt="Loading...">
+                    <img src="/assets/logo/loading.svg" alt="Loading...">
                     <h2>Loading the article...</h2>
                 </div>
                 <div id="error">
@@ -61,14 +61,14 @@
             </div>
         </div>
         <div id="themeChange">
+            <label for="saveArticle">Save this Article for offline read?</label>
+            <input type="checkbox" name="saveArticle" id="saveArticle" disabled>
+            <hr>
             <label for="theme">Select your Theme: </label>
             <select name="theme" id="theme">
                 <option value="light">Light</option>
                 <option value="dark">Dark</option>
             </select>
-            <hr>
-            <label for="saveArticle">Save this Article for offline read?</label>
-            <input type="checkbox" name="saveArticle" id="saveArticle" disabled>
         </div>
         <div id="offlineIndi">
             <p>You are currently in Offline Mode</p>
@@ -102,7 +102,7 @@
                 return decodeURIComponent(results[2].replace(/\+/g, ' '));
             }
             var blogId = getParameterByName("id");
-            fetch("/article.json")
+            fetch(`/article.json?random=${Math.round(Math.random() * 100000)}`)
                 .then(res => res.json())
                 .then(res_json => {
                     json_listing = res_json
@@ -113,10 +113,11 @@
                         document.getElementById("blogName").innerHTML = blogId;
                         document.title = `QuanMCPC's BlogSite | Invalid Blog Id`
                     } else {
-                        caches.open("version-1")
+                        caches.open("version-2")
                             .then(cache => cache.keys())
                             .then(keys => {
                                 for (var value of keys) {
+                                    console.log(new URL(res_json[blogId].link, document.baseURI).href, value.url)
                                     if (new URL(res_json[blogId].link, document.baseURI).href == value.url) {
                                         document.getElementById("saveArticle").checked = true
                                         break
@@ -147,21 +148,25 @@
                     ev.preventDefault()
                 } else {
                     if (document.getElementById("saveArticle").checked) {
-                        caches.open("version-1")
+                        caches.open("version-2")
                             .then((cache) => {
-                                cache.add(json_listing[blogId].link)
-                                cache.add(window.location.href)
-                                alert("Article has been saved successfully")
+                                async function t() {
+                                    await cache.add(json_listing[blogId].link)
+                                    await cache.add(window.location.href)
+                                }
+                                t().then(() => { alert("Article has been saved successfully") })
                             })
                             .catch((error) => {
                                 alert(`Something has gone wrong\n${error}`)
                             })
                     } else {
-                        caches.open("version-1")
+                        caches.open("version-2")
                             .then((cache) => {
-                                cache.delete(json_listing[blogId].link)
-                                cache.delete(window.location.href)
-                                alert("Article has been removed successfully")
+                                async function t() {
+                                    await cache.delete(json_listing[blogId].link)
+                                    await cache.delete(window.location.href)
+                                }
+                                t().then(() => { alert("Article has been removed successfully") })
                             })
                             .catch((error) => {
                                 alert(`Something has gone wrong\n${error}`)

@@ -1,6 +1,6 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('/sw.js?version=8')
             .then((registration) => { console.log('ServiceWorker registration successful with scope: ', registration.scope) })
             .catch(err => { console.log('ServiceWorker registration failed: ', err) });
     });
@@ -18,7 +18,7 @@ checkOnlineStatus().then(v => {
         document.getElementById("offlineIndi").style.display = "none"
     } else {
         document.getElementById("offlineIndi").style.display = "block"
-        caches.open("version-1")
+        caches.open("version-2")
             .then(cache => cache.keys())
             .then(keys => {
                 var data = keys.map(req => { return req.url })

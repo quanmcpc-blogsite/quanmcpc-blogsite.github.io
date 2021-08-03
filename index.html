@@ -5,17 +5,17 @@
         <meta name="google-site-verification" content="ffzGYJ5CGObeNHPqrWXCvhLUmXwhIfWjEanYi5wbxag" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
         <!-- Open Sans -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> -->
         <meta property="og:title" content="QuanMCPC's BlogSite">
         <meta property="og:site_name" content="QuanMCPC's BlogSite">
         <meta property="og:url" content="https://quanmcpc-blogsite.github.io/">
         <meta property="og:description" content="Hello! This is my personal blog, where I wrote blog about me, about my website, or maybe just random stuff.">
         <meta property="og:type" content="website">
-        <meta property="og:image" content="https://quanmcpc-blogsite.github.io/logo.png">
+        <meta property="og:image" content="https://quanmcpc-blogsite.github.io/assets/logo/logo.png">
         <meta name="twitter:card" content="summary_large_image">
         <link rel="shortcut icon" href="/favicon.ico">
         <meta name="theme-color" content="#a00000" />
@@ -26,6 +26,7 @@
                 border: 2px solid var(--fg);
                 height: auto;
                 margin: 5px auto 5px auto;
+                position: relative;
             }
             @media (min-width: 600px) { div.blogitem { width: 100%; } }
             @media (min-width: 680px) { div.blogitem { width: 65%; } }
@@ -64,7 +65,7 @@
         <p>NOTE: Because I've forgot the password to my old account (quanmcpc-blog), I've decide to create this new account.</p>
         <div id="bloghere">
             <div id="loadArticle" class="blogitem">
-                <img src="/loading.svg" alt="Loading...">
+                <img src="/assets/logo/loading.svg" alt="Loading...">
                 <h2>Loading some article...</h2>
             </div>
         </div>
@@ -78,53 +79,69 @@
         <div id="offlineIndi">
             <p>You are currently in Offline Mode</p>
         </div>
-    </body>
-    <script>
-        fetch("/article.json")
-            .then(e => e.json())
-            .then(e => {
-                console.log(`Article metadata loaded`)
-                console.table(e)
-                Object.keys(e).forEach(idname => {
-                    /** @type {{ title: string; preview_text: string; created_on: string; link: string; }} */
-                    console.log(`Adding data with id: ${idname}`)
-                    var element = e[idname]
-                    var section = document.createElement("div");
-                    section.classList.add("blogitem")
-                    var title = document.createElement("h2");
-                    title.innerHTML = element.title;
-                    var preview = document.createElement("p");
-                    preview.innerHTML = `${element.preview_text}...`;
-                    var createdon = document.createElement("p");
-                    createdon.innerHTML = `Created on: ${element.created_on}`;
-                    var clickhere = document.createElement("a");
-                    clickhere.href = `/article.html?id=${idname}`;
-                    clickhere.innerHTML = "Click here to read";
-                    section.appendChild(title);
-                    section.appendChild(preview);
-                    section.appendChild(clickhere);
-                    section.appendChild(createdon);
-                    document.getElementById("bloghere").appendChild(section);
-                    document.getElementById("loadArticle").style.display = "none";
+        <script>
+            fetch(`/article.json?random=${Math.round(Math.random() * 100000)}`)
+                .then(e => e.json())
+                .then(e => {
+                    console.log(`Article metadata loaded`)
+                    console.table(e)
+                    Object.keys(e).forEach(idname => {
+                        console.log(`Adding data with id: ${idname}`)
+                        var element = e[idname]
+                        var section = document.createElement("div");
+                        section.classList.add("blogitem")
+                        var title = document.createElement("h2");
+                        title.innerHTML = element.title;
+                        var preview = document.createElement("p");
+                        preview.innerHTML = `${element.preview_text}...`;
+                        var createdon = document.createElement("p");
+                        createdon.innerHTML = `Created on: ${element.created_on}`;
+                        var clickhere = document.createElement("a");
+                        clickhere.href = `/article.html?id=${idname}`;
+                        clickhere.innerHTML = "Click here to read";
+                        section.appendChild(title);
+                        section.appendChild(preview);
+                        section.appendChild(clickhere);
+                        section.appendChild(createdon);
+                        document.getElementById("bloghere").appendChild(section);
+                        document.getElementById("loadArticle").style.display = "none";
+                    })
+                    caches.open("version-2")
+                        .then(cache => cache.keys())
+                        .then(keys => {
+                            var urls = keys.map((req) => { return req.url })
+                            document.querySelectorAll("div.blogitem:not(#loadArticle) a").forEach((blogItem) => {
+                                if (urls.indexOf(new URL(blogItem.getAttribute("href"),document.baseURI).href) > -1) {
+                                    var saved = document.createElement("p")
+                                    saved.style.position = "absolute"
+                                    saved.style.right = "0"
+                                    saved.style.bottom = "0"
+                                    saved.style.color = "green"
+                                    saved.innerHTML = "Saved Blog"
+                                    blogItem.parentElement.append(saved)
+                                    console.log(blogItem.getAttribute("href"))
+                                }
+                            })
+                        })
                 })
-            })
-        if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
-        function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
-        function func1() {
-            if (document.getElementById("theme").selectedIndex == 0) {
-                setProp("--bg", "#fff")
-                setProp("--fg", "#000")
-            } else {
-                setProp("--bg", "#000")
-                setProp("--fg", "#fff")
+            if (localStorage.getItem("theme") == null) { localStorage.setItem("theme", "0") }
+            function setProp(name, value) { document.documentElement.style.setProperty(name, value) }
+            function func1() {
+                if (document.getElementById("theme").selectedIndex == 0) {
+                    setProp("--bg", "#fff")
+                    setProp("--fg", "#000")
+                } else {
+                    setProp("--bg", "#000")
+                    setProp("--fg", "#fff")
+                }
             }
-        }
-        document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
-        document.getElementById("theme").onchange = (e) => {
-            console.log("Changed theme")
-            localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
+            document.getElementById("theme").selectedIndex = parseInt(localStorage.getItem("theme"));
+            document.getElementById("theme").onchange = (e) => {
+                console.log("Changed theme")
+                localStorage.setItem("theme", document.getElementById("theme").selectedIndex);
+                func1()
+            }
             func1()
-        }
-        func1()
-    </script>
+        </script>
+    </body>
 </html>
