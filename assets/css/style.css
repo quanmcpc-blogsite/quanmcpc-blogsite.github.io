@@ -23,7 +23,7 @@ body {
     color: var(--fg);
     overflow-y: scroll;
 }
-h1, h2, h3, h4, h5, h6, p { margin: 12px 5px 12px 5px; font-weight: normal; }
+h1, h2, h3, h4, h5, h6, p { margin: 7px 5px; font-weight: normal; }
 div#themeChange {
     margin-left: auto;
     margin-right: auto;
@@ -58,3 +58,6 @@ div.disabled * {
     -webkit-user-select: none;
     user-select: none;
 }
+p#copyright { text-align: center; }
+div#saveArticle { margin: 0 auto; display: table; }
+div#somearea { margin: 0 auto; display: block; }

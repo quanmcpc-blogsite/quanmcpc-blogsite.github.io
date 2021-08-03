@@ -28,9 +28,9 @@
                 margin: 5px auto 5px auto;
                 position: relative;
             }
-            @media (min-width: 600px) { div.blogitem { width: 100%; } }
-            @media (min-width: 680px) { div.blogitem { width: 65%; } }
-            @media (min-width: 960px) { div.blogitem { width: 55%; } }
+            @media (min-width: 600px) { div.blogitem, div#somearea { width: 100%; } }
+            @media (min-width: 680px) { div.blogitem, div#somearea { width: 65%; } }
+            @media (min-width: 960px) { div.blogitem, div#somearea { width: 55%; } }
             div.blogitem h2 {
                 margin: 8px;
             }
@@ -69,12 +69,15 @@
                 <h2>Loading some article...</h2>
             </div>
         </div>
-        <div id="themeChange">
-            <label for="theme">Select your Theme: </label>
-            <select name="theme" id="theme">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-            </select>
+        <div id="somearea">
+            <p id="copyright">Copyright (C) 2021 Quan_MCPC. Created on: 7/27/21, this website will live forever.</p>
+            <div id="themeChange">
+                <label for="theme">Select your Theme: </label>
+                <select name="theme" id="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
         </div>
         <div id="offlineIndi">
             <p>You are currently in Offline Mode</p>

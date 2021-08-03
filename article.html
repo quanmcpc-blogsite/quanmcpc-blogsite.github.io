@@ -25,9 +25,9 @@
                 width: 200px;
                 height: 200px;
             }
-            @media (min-width: 600px) { div#blogcontent { width: 100%; } }
-            @media (min-width: 680px) { div#blogcontent { width: 65%; } }
-            @media (min-width: 960px) { div#blogcontent { width: 55%; } }
+            @media (min-width: 600px) { div#blogcontent, div#somearea { width: 100%; } }
+            @media (min-width: 680px) { div#blogcontent, div#somearea { width: 65%; } }
+            @media (min-width: 960px) { div#blogcontent, div#somearea { width: 55%; } }
             a {
                 margin: 5px;
                 color: red;
@@ -59,16 +59,21 @@
                     <h2>Oops, it seem like there's no blog with id: <code>"<span id="blogName"></span>"</code>, sorry</h2>
                 </div>
             </div>
-        </div>
-        <div id="themeChange">
-            <label for="saveArticle">Save this Article for offline read?</label>
-            <input type="checkbox" name="saveArticle" id="saveArticle" disabled>
+            <div id="saveArticle">
+                <label for="saveArticle">Save this Article for offline read?</label>
+                <input type="checkbox" name="saveArticle" id="saveArticle" disabled>
+            </div>
             <hr>
-            <label for="theme">Select your Theme: </label>
-            <select name="theme" id="theme">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-            </select>
+        </div>
+        <div id="somearea">
+            <p id="copyright">Copyright (C) 2021 Quan_MCPC. Created on: 7/27/21, this website will live forever.</p>
+            <div id="themeChange">
+                <label for="theme">Select your Theme: </label>
+                <select name="theme" id="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
         </div>
         <div id="offlineIndi">
             <p>You are currently in Offline Mode</p>
