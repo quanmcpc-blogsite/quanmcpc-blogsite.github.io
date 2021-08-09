@@ -135,7 +135,8 @@
                                         checkOnlineStatus().then(v => { if (v && typeof CacheStorage != "undefined") { document.getElementById("saveArticle").removeAttribute("disabled") } })
                                     })
                                     .catch((error) => {
-                                        alert(`Something has gone wrong\n${error}\n${blogId}`)
+                                        document.querySelector("label[for='saveArticle']").innerHTML = "<del>Save this Article for offline read?</del> [Not Supported]"
+                                        console.log(`An error has occurred, here's the error: \n${error}`)
                                     })
                             }
                             catch (err) {
