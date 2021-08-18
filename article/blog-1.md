@@ -15,9 +15,9 @@ If you're reading this, then once in your life, you might think that "`Oh I want
 ![Wix Building Site (Not Sponsored)](https://i.ibb.co/SxdCm35/image-1.png)
 ##### *Wix Building Site (Not Sponsored)*
 
-Let say you're a **business** or a **normal person who just like to post stuff** (me in a nutshell) but you don't want to spend the time learn to code, then there's thing like **website builder** that allow you to build website with just drag and drop. And most of the time, you won't even have to do the complicated thing like "`responsive layout`" or "`SEO`". Because all of that shit is handled by the hosting service it self.
+Let say you're a **business** or a **normal person who just like to post stuff** (me in a nutshell) but you don't want to spend the time learn to code, then there's thing like **website builder** that allow you to build website with just drag and drop. And most of the time, you won't even have to do the complicated thing like "`responsive layout`" or "`SEO`". Because all of that shit is handled by the hosting service itself.
 
-Although of course, you not getting thing like **source code editing**, and you of course has to pay if you don't want watermark across your website. But again, if you don't care about watermark or source code and just want to create a website, then a drag and drop interface is perfect for you. (Note that some service do allow you to insert HTML, CSS and JS code into your website.)
+Although of course, you not getting thing like **source code editing**, and you of course have to pay if you don't want watermark across your website. But again, if you don't care about watermark or source code and just want to create a website, then a drag and drop interface is perfect for you. (Note that some services do allow you to insert HTML, CSS and JS code into your website.)
 
 ---
 
@@ -41,7 +41,7 @@ Overall, I'll say that with a bit of effort and learning, you'll be able to cust
 
 > "`I don't want to learn HTML, but I also don't want watermark on my website!`" - Some guy
 
-Well then, there's another way, Which is to use an HTML generator! You'll have an easy to use interface (sometime drag and drop, sometime like an word processor) but you'll able to turn it into an HTML document which then you can load to the storage that your hosting service provider.
+Well then, there's another way, which is to use an HTML generator! You'll have an easy-to-use interface (sometime drag and drop, sometime like a word processor) but you'll able to turn it into an HTML document which then you can load to the storage that your hosting service provider.
 
 ### IV. That's it
 
